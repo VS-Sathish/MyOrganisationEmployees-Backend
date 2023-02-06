@@ -17,7 +17,7 @@ exports.gettingAllEmployees = (request, response) => {
 
 exports.gettingAnEmployeeById = (request, response) => {
   try {
-    Employees.find({ _id: request.params.empId }, (err, data) => {
+    Employees.findOne({ _id: request.params.empId }, (err, data) => {
       if (err) {
         return response
           .status(400)
@@ -31,25 +31,27 @@ exports.gettingAnEmployeeById = (request, response) => {
 };
 
 exports.creatingNewEmployee = async (request, response) => {
-  const payload = request.body;
-
-  const newEmployee = new Employees(payload);
-
-  await newEmployee.save((err, data) => {
-    try {
+  try {
+    const payload = request.body;
+    const newEmployee = new Employees(payload);
+    await newEmployee.save((err, data) => {
       if (err) {
         return response
           .status(400)
           .send({ message: "Error while adding new employee" });
       }
-      response.status(200).send({
-        EmployeeId: data._id,
-        message: "new employee added successfully",
-      });
-    } catch (error) {
-      response.status(500).send({ message: "Inrernal server error" });
-    }
-  });
+      response
+        .status(201)
+        .send({
+          employeeId: data._id,
+          messaage: "Employee added successfully",
+        });
+    });
+  } catch (error) {
+    response.status(500).send({
+      message: "Internal server error",
+    });
+  }
 };
 
 exports.updatingAnEmployeeById = (request, response) => {
