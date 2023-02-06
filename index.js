@@ -14,7 +14,7 @@ app.get("/", (request, response) => {
 
 // Middlewares
 app.use(express.json());
-app.use(cros());
+app.use(cors());
 
 app.use("/api", employeeRoutes);
 
