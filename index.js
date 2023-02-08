@@ -14,7 +14,28 @@ app.get("/", (request, response) => {
 
 // Middlewares
 app.use(express.json());
-app.use(cors());
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Origin", "://");
+  // res.header(
+  // "Access-Control-Allow-Origin",
+  // "https://ohzone-sbf-demo-client.cfapps.us10-001.hana.ondemand.com"
+  // );
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,PUT,POST,DELETE,UPDATE,OPTIONS"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+  );
+  next();
+});
+const corsConfig = {
+  credentials: true,
+  origin: true,
+};
+app.use(cors(corsConfig));
 
 app.use("/api", employeeRoutes);
 

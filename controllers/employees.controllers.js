@@ -40,12 +40,10 @@ exports.creatingNewEmployee = async (request, response) => {
           .status(400)
           .send({ message: "Error while adding new employee" });
       }
-      response
-        .status(201)
-        .send({
-          employeeId: data._id,
-          messaage: "Employee added successfully",
-        });
+      response.status(201).send({
+        employeeId: data._id,
+        messaage: "Employee added successfully",
+      });
     });
   } catch (error) {
     response.status(500).send({
@@ -66,7 +64,7 @@ exports.updatingAnEmployeeById = (request, response) => {
             .send({ message: "Error while updating employee data" });
         }
         response.status(201).send({
-          EmployeeId: data._id,
+          employeeID: data._id,
           message: "employee updated successfully",
         });
       }
@@ -88,7 +86,7 @@ exports.deletingAnEmployee = (request, response) => {
         message: `employee with id ${request.params.empID} deleted successfully`,
       });
     });
-  } catch {
+  } catch (error) {
     response.status(500).send({ message: "Inrernal server error" });
   }
 };
